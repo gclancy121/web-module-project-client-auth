@@ -16,6 +16,7 @@ const getFriends = () => {
     }
   })
   .then(res => {
+    console.log(res.data)
     setFriendState({
       data: res.data
     })

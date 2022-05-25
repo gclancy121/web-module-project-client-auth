@@ -1,16 +1,17 @@
 import React, {useState} from 'react';
+import { useHistory } from 'react-router-dom';
+
 import axios from 'axios';
 
 const initialState = {
-  credentials: {
     username: 'Bloom',
     password: 'Tech'
-  }
 };
 
 
 
 function Login (props) {
+  const {push} = useHistory();
   const [state, setState] = useState(initialState);
 
   const handleChange = e => {
@@ -24,10 +25,11 @@ function Login (props) {
 
   const login = evt => {
     evt.preventDefault();
-    axios.post('http://localhost:9000/api/login', state.credentials)
+    axios.post('http://localhost:9000/api/login', state)
     .then(res => {
+      console.log(res)
       localStorage.setItem("token", res.data.token);
-      props.history.push('/friendlist');
+      push('/friendslist');
     })
   }
 
@@ -38,14 +40,14 @@ function Login (props) {
       <input 
       type='text'
       name='username'
-      value={state.credentials.username}
+      value={state.username}
       onChange={handleChange}
       placeholder="Username"
       />
       <input 
         type='password'
         name='password'
-        value={state.credentials.password}
+        value={state.password}
         onChange={handleChange}
         placeholder="Password"
       />
